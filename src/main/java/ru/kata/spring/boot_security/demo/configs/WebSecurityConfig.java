@@ -14,13 +14,16 @@ import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 @Configuration
 @EnableWebSecurity
+
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
     private final UserServiceImpl userServiceImpl;
     private final UserDetailsServiceSecurity userDetailsServiceSecurity;
 
     @Autowired
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserServiceImpl userServiceImpl, UserDetailsServiceSecurity userDetailsServiceSecurity) {
+    public WebSecurityConfig(SuccessUserHandler successUserHandler,
+                             UserServiceImpl userServiceImpl,
+                             UserDetailsServiceSecurity userDetailsServiceSecurity) {
         this.successUserHandler = successUserHandler;
         this.userServiceImpl = userServiceImpl;
         this.userDetailsServiceSecurity = userDetailsServiceSecurity;
@@ -30,7 +33,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-//                .cors().disable()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/").permitAll()

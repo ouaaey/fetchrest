@@ -4,8 +4,16 @@ import lombok.Data;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import java.util.Collection;
@@ -14,6 +22,7 @@ import java.util.Collection;
 @Table(name = "user")
 @Data
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -47,7 +56,13 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id, String name, String surname, byte age, String email, String password, Collection<Role> roles) {
+    public User(Long id,
+                String name,
+                String surname,
+                byte age,
+                String email,
+                String password,
+                Collection<Role> roles) {
         this.id = id;
         this.name = name;
         this.surname = surname;

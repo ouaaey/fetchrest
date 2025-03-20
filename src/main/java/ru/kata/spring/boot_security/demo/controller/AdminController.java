@@ -9,7 +9,6 @@ import ru.kata.spring.boot_security.demo.dto.UserDTO;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
-
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,11 +17,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class AdminController {
+
     private final UserService userService;
     private final RoleRepository roleRepository;
 
     @Autowired
-    public AdminController(UserService userService, RoleRepository roleRepository) {
+    public AdminController(UserService userService,
+                           RoleRepository roleRepository) {
         this.userService = userService;
         this.roleRepository = roleRepository;
 
@@ -35,7 +36,8 @@ public class AdminController {
 
     @GetMapping("/users/roles")
     public ResponseEntity<Collection<Role>> getAllRoles() {
-        return new ResponseEntity<>(roleRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(roleRepository.findAll(),
+                HttpStatus.OK);
     }
 
     @GetMapping("/users/{id}")

@@ -10,7 +10,6 @@ import ru.kata.spring.boot_security.demo.dao.UserRepository;
 import ru.kata.spring.boot_security.demo.dto.UserDTO;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,7 +21,9 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository userRepository,
+                           @Lazy PasswordEncoder passwordEncoder,
+                           RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
@@ -48,16 +49,23 @@ public class UserServiceImpl implements UserService {
         Role adminRole = new Role("ADMIN");
         Role userRole = new Role("USER");
 
-        User first = new User(null, "1", "1", (byte) 1, "1", "1", Set.of(adminRole));
-        User user = new User(null, "admin", "adminovich", (byte) 17, "admin@mail.ru", "1", Set.of(adminRole));
-        User admin = new User(null, "user", "userovich", (byte) 18, "user@mail.ru", "1", Set.of(userRole));
+        User first = new User(null, "1", "11", (byte) 11, "1",
+                "1", Set.of(adminRole));
+        User user = new User(null, "mtvvrm1", "mtvvrm11", (byte) 22,
+                "mtvvrm@gmail.ru", "1", Set.of(adminRole));
+        User admin = new User(null, "mtvvrm2", "mtvvrm22", (byte) 111,
+                "ouaaey@gmail.ru", "1", Set.of(userRole));
+        User second = new User(null, "2", "22", (byte) 22,
+                "2", "2", Set.of(userRole));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         first.setPassword(passwordEncoder.encode(first.getPassword()));
+        second.setPassword(passwordEncoder.encode(second.getPassword()));
 
         userRepository.save(user);
         userRepository.save(admin);
         userRepository.save(first);
+        userRepository.save(second);
     }
 
     @Override
@@ -73,7 +81,9 @@ public class UserServiceImpl implements UserService {
         if (userDTO.getId() == null) {
             user = new User();
         } else {
-            user = userRepository.findById(userDTO.getId()).orElseThrow(() -> new RuntimeException("User not found"));
+            user = userRepository.findById(userDTO
+                    .getId())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
         }
         user.setName(userDTO.getName());
         user.setSurname(userDTO.getSurname());
@@ -97,7 +107,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public User getUserById(Long id) {
-        return userRepository.findById(id).get();
+        return userRepository.findById(id)
+                .get();
     }
 
 }
